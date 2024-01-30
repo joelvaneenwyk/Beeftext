@@ -1,5 +1,6 @@
 Beeftext
 buildsystems
+buildtrees
 cmds
 DCMAKE
 deinit
@@ -12,4 +13,5 @@ Michelon
 subdir
 subdirs
 SUBDIRS
+toolsrc
 vcpkg

@@ -23,26 +23,7 @@ tasks:
       - cmd: git rm --cached "{{.PROJECT_DIR}}/vcpkg"
         ignore_error: true
         dir: "{{.PROJECT_DIR}}"
-      - task: remove-cache
-        vars: { TARGET: "{{.PROJECT_DIR}}/vcpkg/.git" }
-      - task: remove-cache
-        vars: { TARGET: "{{.PROJECT_DIR}}/vcpkg/docs" }
-      - task: remove-cache
-        vars: { TARGET: "{{.PROJECT_DIR}}/vcpkg/downloads" }
-      - task: remove-cache
-        vars: { TARGET: "{{.PROJECT_DIR}}/vcpkg/packages" }
-      - task: remove-cache
-        vars: { TARGET: "{{.PROJECT_DIR}}/vcpkg/ports" }
-      - task: remove-cache
-        vars: { TARGET: "{{.PROJECT_DIR}}/vcpkg/versions" }
-      - task: remove-cache
-        vars: { TARGET: "{{.PROJECT_DIR}}/vcpkg/toolsrc" }
-      - task: remove-cache
-        vars: { TARGET: "{{.PROJECT_DIR}}/vcpkg/triplets" }
-      - task: remove-cache
-        vars: { TARGET: "{{.PROJECT_DIR}}/vcpkg/scripts" }
-      - task: remove-cache
-        vars: { TARGET: "{{.PROJECT_DIR}}/vcpkg/buildtrees" }
+      - task: clean
       - cmd: git submodule deinit -f --all
       - cmd: git -C "{{.PROJECT_DIR}}" submodule add -b master --force -- "{{.VCPKG_SOURCE_URL}}" "Submodules/vcpkg"
         ignore_error: true
@@ -56,6 +37,69 @@ tasks:
       # https://github.com/microsoft/vcpkg?tab=readme-ov-file#quick-start-windows
       - cmd: '{{if eq .OS "Windows_NT"}}cmd /d /c if exist "{{fromSlash .VCPKG_BOOTSTRAP}}" call "{{fromSlash .VCPKG_BOOTSTRAP}}"{{end}}'
         ignore_error: true
+
+  clean:
+    deps:
+      - clean-git
+      - clean-docs
+      - clean-downloads
+      - clean-packages
+      - clean-ports
+      - clean-versions
+      - clean-toolsrc
+      - clean-triplets
+      - clean-scripts
+      - clean-buildtrees
+
+  clean-git:
+    cmds:
+      - task: remove-cache
+        vars: { TARGET: "{{.PROJECT_DIR}}/vcpkg/.git" }
+
+  clean-docs:
+    cmds:
+      - task: remove-cache
+        vars: { TARGET: "{{.PROJECT_DIR}}/vcpkg/docs" }
+
+  clean-downloads:
+    cmds:
+      - task: remove-cache
+        vars: { TARGET: "{{.PROJECT_DIR}}/vcpkg/downloads" }
+
+  clean-packages:
+    cmds:
+      - task: remove-cache
+        vars: { TARGET: "{{.PROJECT_DIR}}/vcpkg/packages" }
+
+  clean-ports:
+    cmds:
+      - task: remove-cache
+        vars: { TARGET: "{{.PROJECT_DIR}}/vcpkg/ports" }
+
+  clean-versions:
+    cmds:
+      - task: remove-cache
+        vars: { TARGET: "{{.PROJECT_DIR}}/vcpkg/versions" }
+
+  clean-toolsrc:
+    cmds:
+      - task: remove-cache
+        vars: { TARGET: "{{.PROJECT_DIR}}/vcpkg/toolsrc" }
+
+  clean-triplets:
+    cmds:
+      - task: remove-cache
+        vars: { TARGET: "{{.PROJECT_DIR}}/vcpkg/triplets" }
+
+  clean-scripts:
+    cmds:
+      - task: remove-cache
+        vars: { TARGET: "{{.PROJECT_DIR}}/vcpkg/scripts" }
+
+  clean-buildtrees:
+    cmds:
+      - task: remove-cache
+        vars: { TARGET: "{{.PROJECT_DIR}}/vcpkg/buildtrees" }
 
   remove-cache:
     deps: []
