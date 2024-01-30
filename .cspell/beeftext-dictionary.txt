@@ -1,4 +1,7 @@
 Beeftext
+buildsystems
+cmds
+DCMAKE
 emojilib
 gflags
 gitmodules

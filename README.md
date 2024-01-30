@@ -4,14 +4,14 @@
 
 Beeftext is a text snippet management tool for Windows, inspired by [TextExpander].
 
-> [!important]  
+> [!important]
 > Beeftext is now in maintenance mode. No new feature will be added, but fixes for major issues will be provided.
 
-TextExpander is a great program, packed with features. To keep the company profitable, 
+TextExpander is a great program, packed with features. To keep the company profitable,
 [Smile] had to switch to a subscription-based model in 2016. And for people who only need the
 basic features of TextExpander, the monthly price is way too high.
 
-Beeftext aims to be the best possible alternative to TextExpander. Beeftext is an open-source project 
+Beeftext aims to be the best possible alternative to TextExpander. Beeftext is an open-source project
 written in C++ using the [Qt] framework.
 
 ## Contributors
@@ -33,6 +33,7 @@ Beeftext uses the [OpenSSL] library under [OpenSSL and SSLeay licenses].
 Beeftext uses the [emojilib](https://github.com/muan/emojilib) library under the [MIT License].
 
 ## Documentation
+
 ### End User
 
 The end user documentation is available as a [wiki](https://github.com/xmichelo/Beeftext/wiki) on the GitHub project page.
