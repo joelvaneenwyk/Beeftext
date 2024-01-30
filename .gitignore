@@ -3,6 +3,7 @@ _build/
 _temp/
 _doc/
 GeneratedFiles/
+.build/
 build/
 ipch/
 temp/
