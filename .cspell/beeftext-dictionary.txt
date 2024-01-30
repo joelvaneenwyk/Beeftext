@@ -1,0 +1,11 @@
+Beeftext
+emojilib
+gflags
+gitmodules
+glog
+gtest
+Michelon
+subdir
+subdirs
+SUBDIRS
+vcpkg
