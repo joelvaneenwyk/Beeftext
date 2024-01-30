@@ -15,3 +15,4 @@ subdirs
 SUBDIRS
 toolsrc
 vcpkg
+taskfile

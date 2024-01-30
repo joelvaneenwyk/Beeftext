@@ -10,15 +10,39 @@ vars:
   SOURCE_DIR: "{{.USER_WORKING_DIR}}"
   PROJECT_DIR: "{{.USER_WORKING_DIR}}"
   RM: '{{if eq .OS "Windows_NT"}}cmd /d /c rmdir /q /s{{else}}rm -rf{{end}}'
+  PACKAGE_MANAGER: '{{if eq .OS "Windows_NT"}}scoop{{else}}apt{{end}}'
+  INSTALL: "{{.PACKAGE_MANAGER}} install"
+  UPDATE: "{{.PACKAGE_MANAGER}} update"
+  PKG_QT_CREATOR: '{{if eq .OS "Windows_NT"}}extras/qt-creator{{else}}qt-creator{{end}}'
+
+env:
+  VCPKG_DISABLE_METRICS: 1
 
 tasks:
   default:
+    deps: [init]
     cmds:
       - cmd: 'cmake -B "{{.BUILD_DIR}}" -S "{{.SOURCE_DIR}}" "-DCMAKE_TOOLCHAIN_FILE={{.VCPKG}}/scripts/buildsystems/vcpkg.cmake"'
       - cmd: 'cmake --build "{{.BUILD_DIR}}"'
     silent: false
 
+  install:
+    cmds:
+      - "{{.INSTALL}} {{.PKG_QT_CREATOR}}"
+      - "{{.UPDATE}} {{.PKG_QT_CREATOR}}"
+      - task: init
+
   init:
+    cmds:
+      - task: init-git
+      - task: init-vcpkg
+
+  init-git:
+    cmds:
+      - cmd: git -C "{{.PROJECT_DIR}}" submodule init
+      - cmd: git -C "{{.PROJECT_DIR}}" submodule update --init
+
+  init-git-submodules:
     cmds:
       - cmd: git rm --cached "{{.PROJECT_DIR}}/vcpkg"
         ignore_error: true
@@ -34,9 +58,13 @@ tasks:
       - git -C "{{.PROJECT_DIR}}" submodule update --init
       - git -C "{{.PROJECT_DIR}}" submodule update --recursive --checkout --remote
 
+  init-vcpkg:
+    cmds:
       # https://github.com/microsoft/vcpkg?tab=readme-ov-file#quick-start-windows
-      - cmd: '{{if eq .OS "Windows_NT"}}cmd /d /c if exist "{{fromSlash .VCPKG_BOOTSTRAP}}" call "{{fromSlash .VCPKG_BOOTSTRAP}}"{{end}}'
+      - cmd: '{{if eq .OS "Windows_NT"}}cmd /d /c if exist "{{fromSlash .VCPKG_BOOTSTRAP}}" call "{{fromSlash .VCPKG_BOOTSTRAP}}" -disableMetrics{{end}}'
         ignore_error: true
+    env:
+      VCPKG_DISABLE_METRICS: 1
 
   clean:
     deps:
@@ -107,5 +135,7 @@ tasks:
     vars:
       TARGET: '{{default ".temp" .TARGET}}'
     cmds:
-      - '{{if eq .OS "Windows_NT"}}cmd /d /c if exist "{{fromSlash .TARGET}}" rmdir /q /s "{{fromSlash .TARGET}}"{{end}}'
-      - '{{if eq .OS "Windows_NT"}}cmd /d /c if exist "{{fromSlash .TARGET}}" del "{{fromSlash .TARGET}}"{{end}}'
+      - cmd: '{{if eq .OS "Windows_NT"}}cmd /d /c if exist "{{fromSlash .TARGET}}" rmdir /q /s "{{fromSlash .TARGET}}"{{end}}'
+        timeout: 5s
+      - cmd: '{{if eq .OS "Windows_NT"}}cmd /d /c if exist "{{fromSlash .TARGET}}" del "{{fromSlash .TARGET}}"{{end}}'
+        timeout: 5s
