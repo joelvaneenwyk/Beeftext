@@ -28,24 +28,7 @@ jobs:
               os: windows-latest,
               c_compiler: "cl",
               cpp_compiler: "cl",
-              environment_script: "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Auxiliary/Build/vcvars64.bat",
               vcpkg_triplet: x64-windows,
-            }
-          - {
-              name: "Windows Latest LLVM x86_64",
-              ext: "windows-llvm-x86_64",
-              os: windows-latest,
-              c_compiler: "clang",
-              cpp_compiler: "clang++",
-              vcpkg_triplet: x64-win-llvm,
-            }
-          - {
-              name: "Ubuntu Latest GCC",
-              ext: "linux",
-              os: ubuntu-latest,
-              c_compiler: "gcc",
-              cpp_compiler: "g++",
-              vcpkg_triplet: x64-linux,
             }
           - {
               name: "Ubuntu Latest GCC",
@@ -57,6 +40,7 @@ jobs:
             }
         build_type: [Release]
 
+    name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
     steps:
       - uses: actions/checkout@v4
