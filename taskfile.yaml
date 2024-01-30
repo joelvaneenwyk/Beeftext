@@ -1,0 +1,25 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  VCPKG: "{{.USER_WORKING_DIR}}/vcpkg"
+  VCPKG_SOURCE_URL: https://github.com/microsoft/vcpkg
+  BUILD_DIR: "{{.USER_WORKING_DIR}}/.build"
+  SOURCE_DIR: "{{.USER_WORKING_DIR}}"
+  PROJECT_DIR: "{{.USER_WORKING_DIR}}"
+
+tasks:
+  default:
+    cmds:
+      # https://github.com/microsoft/vcpkg?tab=readme-ov-file#quick-start-windows
+      - cmd: git clone "{{.VCPKG_SOURCE_URL}}" "{{.VCPKG}}"
+        ignore_error: true
+        dir: "{{.PROJECT_DIR}}"
+      - cmd: git -C "{{.VCPKG}}" pull https://github.com/microsoft/vcpkg
+        ignore_error: true
+      - cmd: '"{{.VCPKG}}" integrate install'
+        ignore_error: true
+      - cmd: 'cmake -B "{{.BUILD_DIR}}" -S "{{.SOURCE_DIR}}" "-DCMAKE_TOOLCHAIN_FILE={{.VCPKG}}/scripts/buildsystems/vcpkg.cmake"'
+      - cmd: 'cmake --build "{{.BUILD_DIR}}"'
+    silent: false
