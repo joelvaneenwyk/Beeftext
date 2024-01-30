@@ -2,6 +2,7 @@ Beeftext
 buildsystems
 cmds
 DCMAKE
+deinit
 emojilib
 gflags
 gitmodules
