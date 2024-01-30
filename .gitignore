@@ -34,3 +34,6 @@ tasks.xml
 qtvars*
 CMakeCache.txt
 .idea/
+
+/vcpkg/
+.sarif/

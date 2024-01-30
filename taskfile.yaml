@@ -4,10 +4,12 @@ version: "3"
 
 vars:
   VCPKG: "{{.USER_WORKING_DIR}}/Submodules/vcpkg"
+  VCPKG_BOOTSTRAP: "{{.USER_WORKING_DIR}}/Submodules/vcpkg/bootstrap-vcpkg.bat"
   VCPKG_SOURCE_URL: https://github.com/microsoft/vcpkg
   BUILD_DIR: "{{.USER_WORKING_DIR}}/.build"
   SOURCE_DIR: "{{.USER_WORKING_DIR}}"
   PROJECT_DIR: "{{.USER_WORKING_DIR}}"
+  RM: '{{if eq .OS "Windows_NT"}}cmd /d /c rmdir /q /s{{else}}rm -rf{{end}}'
 
 tasks:
   default:
@@ -18,7 +20,30 @@ tasks:
 
   init:
     cmds:
-      - git submodule deinit -f --all
+      - cmd: git rm --cached "{{.PROJECT_DIR}}/vcpkg"
+        ignore_error: true
+        dir: "{{.PROJECT_DIR}}"
+      - task: remove-cache
+        vars: { TARGET: "{{.PROJECT_DIR}}/vcpkg/.git" }
+      - task: remove-cache
+        vars: { TARGET: "{{.PROJECT_DIR}}/vcpkg/docs" }
+      - task: remove-cache
+        vars: { TARGET: "{{.PROJECT_DIR}}/vcpkg/downloads" }
+      - task: remove-cache
+        vars: { TARGET: "{{.PROJECT_DIR}}/vcpkg/packages" }
+      - task: remove-cache
+        vars: { TARGET: "{{.PROJECT_DIR}}/vcpkg/ports" }
+      - task: remove-cache
+        vars: { TARGET: "{{.PROJECT_DIR}}/vcpkg/versions" }
+      - task: remove-cache
+        vars: { TARGET: "{{.PROJECT_DIR}}/vcpkg/toolsrc" }
+      - task: remove-cache
+        vars: { TARGET: "{{.PROJECT_DIR}}/vcpkg/triplets" }
+      - task: remove-cache
+        vars: { TARGET: "{{.PROJECT_DIR}}/vcpkg/scripts" }
+      - task: remove-cache
+        vars: { TARGET: "{{.PROJECT_DIR}}/vcpkg/buildtrees" }
+      - cmd: git submodule deinit -f --all
       - cmd: git -C "{{.PROJECT_DIR}}" submodule add -b master --force -- "{{.VCPKG_SOURCE_URL}}" "Submodules/vcpkg"
         ignore_error: true
       - cmd: git -C "{{.PROJECT_DIR}}" submodule add -b master --force -- "https://github.com/xmichelo/XMiLib" "Submodules/XMiLib"
@@ -29,5 +54,14 @@ tasks:
       - git -C "{{.PROJECT_DIR}}" submodule update --recursive --checkout --remote
 
       # https://github.com/microsoft/vcpkg?tab=readme-ov-file#quick-start-windows
-      - cmd: '"{{.VCPKG}}" integrate install'
+      - cmd: '{{if eq .OS "Windows_NT"}}cmd /d /c if exist "{{fromSlash .VCPKG_BOOTSTRAP}}" call "{{fromSlash .VCPKG_BOOTSTRAP}}"{{end}}'
         ignore_error: true
+
+  remove-cache:
+    deps: []
+    internal: true
+    vars:
+      TARGET: '{{default ".temp" .TARGET}}'
+    cmds:
+      - '{{if eq .OS "Windows_NT"}}cmd /d /c if exist "{{fromSlash .TARGET}}" rmdir /q /s "{{fromSlash .TARGET}}"{{end}}'
+      - '{{if eq .OS "Windows_NT"}}cmd /d /c if exist "{{fromSlash .TARGET}}" del "{{fromSlash .TARGET}}"{{end}}'
