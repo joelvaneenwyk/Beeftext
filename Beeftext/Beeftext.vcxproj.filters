@@ -52,6 +52,9 @@
     <Filter Include="Snippet">
       <UniqueIdentifier>{443b388f-c32a-4358-bae0-62a516901c78}</UniqueIdentifier>
     </Filter>
+    <Filter Include="{Solution}">
+      <UniqueIdentifier>{cf472489-5a94-4d32-a988-17045dd27ded}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -405,6 +408,9 @@
     </None>
     <None Include="Resources\StyleNoCustom.qss">
       <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\vcpkg.json">
+      <Filter>{Solution}</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

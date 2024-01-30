@@ -7,6 +7,18 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XMiLib", "Submodules\XMiLib
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Beeftext", "Beeftext\Beeftext.vcxproj", "{B12702AD-ABFB-343A-A199-8E24837244A3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Global", ".Global", "{A96CAE69-178D-4182-B148-25D6AEC1CB09}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		.gitmodules = .gitmodules
+		BeeftextSolution.pro = BeeftextSolution.pro
+		CMakeLists.txt = CMakeLists.txt
+		cspell.config.yaml = cspell.config.yaml
+		LICENSE = LICENSE
+		README.md = README.md
+		vcpkg.json = vcpkg.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -32,7 +44,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {6C34D44C-97E9-4375-8F51-D29779424AB7}
 		Qt5Version = $(DefaultQtVersion)
+		SolutionGuid = {6C34D44C-97E9-4375-8F51-D29779424AB7}
 	EndGlobalSection
 EndGlobal
