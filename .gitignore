@@ -44,11 +44,15 @@ qtvars*
 CMakeCache.txt
 
 /vcpkg/
+
 .sarif/
-*.pro.user
 debug/
 release/
 out/
+x64/
+
+*.pro.user
 ui_*.h
 moc_*.cpp
 .qmake.stash
+*.qtvscr
