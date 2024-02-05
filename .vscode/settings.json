@@ -1,25 +1,26 @@
 {
-    "editor.formatOnSave": true,
-    "cmake.configureSettings": {
-        "CMAKE_TOOLCHAIN_FILE": "C:\\Users\\jovaneen\\scoop\\apps\\vcpkg\\current/scripts/buildsystems/vcpkg.cmake"
-    },
-    "vcpkg.general.enable": true,
-    "vcpkg.target.defaultTriplet": "x64-windows",
-    "vcpkg.target.hostTriplet": "x64-windows",
-    "vcpkg.target.installDependencies": true,
-    "vcpkg.target.preferSystemLibs": false,
-    "vcpkg.target.useManifest": true,
-    "vcpkg.target.useStaticLib": false,
-    "cmake.configureArgs": [
-        "-DCMAKE_TOOLCHAIN_FILE=${workspaceFolder}/Submodules/vcpkg/scripts/buildsystems/vcpkg.cmake",
-        "-DVCPKG_TARGET_TRIPLET=x64-windows"
-    ],
-    "cmake.environment": {
-        "VCPKG_ROOT": "${workspaceFolder}/Submodules/vcpkg"
-    },
-    "terminal.integrated.defaultProfile.windows": "Command Prompt",
-    "terminal.integrated.env.windows": {
-        "VCPKG_ROOT": "${workspaceFolder}/Submodules/vcpkg",
-        "PATH": "${env:PATH};${workspaceFolder}/Submodules/vcpkg"
-    }
+  "editor.formatOnSave": true,
+  "cmake.configureSettings": {
+    "CMAKE_TOOLCHAIN_FILE": "C:\\Users\\jovaneen\\scoop\\apps\\vcpkg\\current/scripts/buildsystems/vcpkg.cmake"
+  },
+  "vcpkg.general.enable": true,
+  "vcpkg.target.defaultTriplet": "x64-windows-static",
+  "vcpkg.target.hostTriplet": "x64-windows",
+  "vcpkg.target.installDependencies": true,
+  "vcpkg.target.preferSystemLibs": true,
+  "vcpkg.target.useManifest": true,
+  "vcpkg.target.useStaticLib": true,
+  "cmake.configureArgs": [
+    "-DCMAKE_TOOLCHAIN_FILE=${workspaceFolder}/Submodules/vcpkg/scripts/buildsystems/vcpkg.cmake",
+    "-DVCPKG_TARGET_TRIPLET=x64-windows-static",
+    "-DVCPKG_PREFER_SYSTEM_LIBS=ON"
+  ],
+  "cmake.environment": {
+    "VCPKG_ROOT": "${workspaceFolder}/Submodules/vcpkg"
+  },
+  "terminal.integrated.defaultProfile.windows": "Command Prompt",
+  "terminal.integrated.env.windows": {
+    "VCPKG_ROOT": "${workspaceFolder}/Submodules/vcpkg",
+    "PATH": "${env:PATH};${workspaceFolder}/Submodules/vcpkg"
+  }
 }

@@ -4,22 +4,6 @@
   "builtin-baseline": "2a6371b01420d8820d158b4707e79931feba27aa",
   "dependencies": [
     {
-      "name": "fmt",
-      "version>=": "10.1.1"
-    },
-    {
-      "name": "gflags",
-      "version>=": "2.2.2#9"
-    },
-    {
-      "name": "glog",
-      "version>=": "0.6.0#3"
-    },
-    {
-      "name": "gtest",
-      "version>=": "1.14.0"
-    },
-    {
       "name": "vcpkg-cmake-config",
       "version>=": "2022-02-06#1"
     },
@@ -33,7 +17,7 @@
     },
     {
       "name": "qt",
-      "version>=": "6.5.3"
+      "version>=": "6.6.1"
     }
   ]
 }
