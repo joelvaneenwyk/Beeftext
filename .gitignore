@@ -1,3 +1,11 @@
+#
+##################
+# Beeftext
+#----------------
+#
+# Ignore file for Visual Studio projects using Qt
+#
+
 .vs/
 _build/
 _temp/
@@ -8,6 +16,7 @@ build/
 ipch/
 temp/
 CMakeFiles/
+
 *.suo
 *.vcxproj.user
 *.bak
@@ -33,7 +42,12 @@ tasks.xml
 *.DotSettings.user
 qtvars*
 CMakeCache.txt
-.idea/
 
 /vcpkg/
 .sarif/
+*.pro.user
+debug/
+release/
+out/
+ui_*.h
+moc_*.cpp

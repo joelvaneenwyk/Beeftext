@@ -1,302 +1,233 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="DebugRemote|x64">
-      <Configuration>DebugRemote</Configuration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|x64">
-      <Configuration>Release</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{B12702AD-ABFB-343A-A199-8E24837244A3}</ProjectGuid>
+    <ProjectGuid>{12E8B18B-898E-3228-B035-ED061C0F777C}</ProjectGuid>
+    <RootNamespace>Beeftext</RootNamespace>
     <Keyword>QtVS_v304</Keyword>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformMinVersion>10.0.22621.0</WindowsTargetPlatformMinVersion>
+    <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v143</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugRemote|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v143</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
     <PlatformToolset>v143</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <OutputDirectory>release\</OutputDirectory>
+    <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
+    <CharacterSet>NotSet</CharacterSet>
+    <ConfigurationType>Application</ConfigurationType>
+    <IntermediateDirectory>release\</IntermediateDirectory>
+    <PrimaryOutput>Beeftext</PrimaryOutput>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <PlatformToolset>v143</PlatformToolset>
+    <OutputDirectory>debug\</OutputDirectory>
+    <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
+    <CharacterSet>NotSet</CharacterSet>
+    <ConfigurationType>Application</ConfigurationType>
+    <IntermediateDirectory>debug\</IntermediateDirectory>
+    <PrimaryOutput>Beeftext</PrimaryOutput>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <PropertyGroup Condition="'$(QtMsBuild)'=='' or !Exists('$(QtMsBuild)\qt.targets')">
-    <QtMsBuild>$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
+  <Import Project="$(QtMsBuild)\qt_defaults.props" Condition="Exists('$(QtMsBuild)\qt_defaults.props')" />
+  <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <QtInstall>6.6.1</QtInstall>
+    <QtModules>core;network;gui;multimedia;widgets</QtModules>
   </PropertyGroup>
-  <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
+  <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <QtInstall>6.6.1</QtInstall>
+    <QtModules>core;network;gui;multimedia;widgets</QtModules>
+  </PropertyGroup>
+  <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') OR !Exists('$(QtMsBuild)\Qt.props')">
     <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
   </Target>
   <ImportGroup Label="ExtensionSettings" />
-  <ImportGroup Label="Shared" />
-  <ImportGroup Label="PropertySheets" />
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+    <Import Project="$(QtMsBuild)\Qt.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+    <Import Project="$(QtMsBuild)\Qt.props" />
+  </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <ImportGroup Condition="Exists('$(QtMsBuild)\qt_defaults.props')">
-    <Import Project="$(QtMsBuild)\qt_defaults.props" />
-  </ImportGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)_build\$(PlatformName)\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)_temp\$(PlatformName)\$(Configuration)\</IntDir>
+  <PropertyGroup>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Beeftext</TargetName>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</IgnoreImportLibrary>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Beeftext</TargetName>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</IgnoreImportLibrary>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)_build\$(PlatformName)\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)_temp\$(PlatformName)\$(Configuration)\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugRemote|x64'">
-    <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)_build\$(PlatformName)\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)_temp\$(PlatformName)\$(Configuration)\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="QtSettings">
-    <QtModules>core;gui;network;widgets</QtModules>
-    <QtInstall>$(DefaultQtVersion)</QtInstall>
-    <QtLUpdateOptions>
-    </QtLUpdateOptions>
-    <QtQMLDebugEnable>false</QtQMLDebugEnable>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="QtSettings">
-    <QtModules>core;gui;network;widgets</QtModules>
-    <QtInstall>$(DefaultQtVersion)</QtInstall>
-    <QtLUpdateOptions>
-    </QtLUpdateOptions>
-    <QtQMLDebugEnable>false</QtQMLDebugEnable>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugRemote|x64'" Label="QtSettings">
-    <QtModules>core;gui;network;widgets</QtModules>
-    <QtBuildConfig>debug</QtBuildConfig>
-    <QtInstall>$(DefaultQtVersion)</QtInstall>
-    <QtLUpdateOptions>
-    </QtLUpdateOptions>
-    <QtQMLDebugEnable>false</QtQMLDebugEnable>
-  </PropertyGroup>
-  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.props')">
-    <Import Project="$(QtMsBuild)\qt.props" />
-  </ImportGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ClCompile>
-      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.\..\Submodules\XMiLib;.;$(QTDIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <Optimization>Disabled</Optimization>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <DisableSpecificWarnings>4068;26444;26812;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <PreprocessorDefinitions>UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <TargetMachine>MachineX64</TargetMachine>
-      <AdditionalOptions> /SUBSYSTEM:WINDOWS</AdditionalOptions>
-    </Link>
-    <PreBuildEvent>
-      <Command>powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -command "$(SolutionDir)Scripts\PowerShell\CompileTranslationFiles.ps1 -dstDir $(OutDir)translations " &gt;NUL</Command>
-    </PreBuildEvent>
-    <PreBuildEvent>
-      <Message>Compiling translation files</Message>
-    </PreBuildEvent>
-    <QtMoc>
-      <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
-      <DynamicSource>output</DynamicSource>
-      <ForceInclude>
-      </ForceInclude>
-      <PrependInclude>stdafx.h</PrependInclude>
-      <QtMocDir>.\_build\GeneratedFiles\$(ConfigurationName)</QtMocDir>
-      <QtMocFileName>moc_%(Filename).cpp</QtMocFileName>
-    </QtMoc>
-    <QtRcc>
-      <InitFuncName>%(Filename)</InitFuncName>
-      <Compression>default</Compression>
-      <NoCompression>true</NoCompression>
-      <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
-      <QtRccDir>.\_build\GeneratedFiles</QtRccDir>
-      <QtRccFileName>qrc_%(Filename).cpp</QtRccFileName>
-    </QtRcc>
-    <QtUic>
-      <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
-      <QtUicDir>.\_build\GeneratedFiles</QtUicDir>
-      <QtUicFileName>ui_%(Filename).h</QtUicFileName>
-    </QtUic>
-    <QtTranslation />
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugRemote|x64'">
-    <ClCompile>
-      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.\..\Submodules\XMiLib;.;$(QTDIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <Optimization>Disabled</Optimization>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <DisableSpecificWarnings>4068;26444;26812;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <PreprocessorDefinitions>UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <TargetMachine>MachineX64</TargetMachine>
-      <AdditionalOptions> /SUBSYSTEM:WINDOWS</AdditionalOptions>
-    </Link>
-    <PreBuildEvent>
-      <Command>powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -command "$(SolutionDir)Scripts\PowerShell\CompileTranslationFiles.ps1 -dstDir $(OutDir)translations " &gt;NUL</Command>
-    </PreBuildEvent>
-    <PreBuildEvent>
-      <Message>Compiling translation files</Message>
-    </PreBuildEvent>
-    <QtMoc>
-      <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
-      <DynamicSource>output</DynamicSource>
-      <ForceInclude>
-      </ForceInclude>
-      <PrependInclude>stdafx.h</PrependInclude>
-      <QtMocDir>.\_build\GeneratedFiles\$(ConfigurationName)</QtMocDir>
-      <QtMocFileName>moc_%(Filename).cpp</QtMocFileName>
-    </QtMoc>
-    <QtRcc>
-      <InitFuncName>%(Filename)</InitFuncName>
-      <Compression>default</Compression>
-      <NoCompression>true</NoCompression>
-      <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
-      <QtRccDir>.\_build\GeneratedFiles</QtRccDir>
-      <QtRccFileName>qrc_%(Filename).cpp</QtRccFileName>
-    </QtRcc>
-    <QtUic>
-      <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
-      <QtUicDir>.\_build\GeneratedFiles</QtUicDir>
-      <QtUicFileName>ui_%(Filename).h</QtUicFileName>
-    </QtUic>
-    <QtTranslation>
-      <UpdateAdditionalOptions>$(QtLUpdateOptions)</UpdateAdditionalOptions>
-    </QtTranslation>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PreprocessorDefinitions>QT_NO_DEBUG;NDEBUG;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.\..\Submodules\XMiLib;.;$(QTDIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <DebugInformationFormat>
-      </DebugInformationFormat>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;.;..\Submodules\XMiLib;..\..\..\..\WORK\DEPENDENCIES\QT\TOOLS\QTDESIGNSTUDIO\QT6_DESIGN_STUDIO_REDUCED_VERSION\include;..\..\..\..\WORK\DEPENDENCIES\QT\TOOLS\QTDESIGNSTUDIO\QT6_DESIGN_STUDIO_REDUCED_VERSION\include\QtMultimedia;..\..\..\..\WORK\DEPENDENCIES\QT\TOOLS\QTDESIGNSTUDIO\QT6_DESIGN_STUDIO_REDUCED_VERSION\include\QtWidgets;..\..\..\..\WORK\DEPENDENCIES\QT\TOOLS\QTDESIGNSTUDIO\QT6_DESIGN_STUDIO_REDUCED_VERSION\include\QtGui;..\..\..\..\WORK\DEPENDENCIES\QT\TOOLS\QTDESIGNSTUDIO\QT6_DESIGN_STUDIO_REDUCED_VERSION\include\QtNetwork;..\..\..\..\WORK\DEPENDENCIES\QT\TOOLS\QTDESIGNSTUDIO\QT6_DESIGN_STUDIO_REDUCED_VERSION\include\QtCore;release;/include;..\..\..\..\WORK\DEPENDENCIES\QT\TOOLS\QTDESIGNSTUDIO\QT6_DESIGN_STUDIO_REDUCED_VERSION\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -permissive- -Zc:__cplusplus -Zc:externConstexpr -utf-8 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
+      <AssemblerListingLocation>release\</AssemblerListingLocation>
+      <BrowseInformation>false</BrowseInformation>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <DisableSpecificWarnings>4577;4467;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ForcedIncludeFiles>stdafx.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <ObjectFileName>release\</ObjectFileName>
+      <Optimization>MaxSpeed</Optimization>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeaderOutputFile>$(IntDir)\Beeftext.pch</PrecompiledHeaderOutputFile>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;NDEBUG;QT_NO_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
+      <ProgramDataBaseFileName>
+      </ProgramDataBaseFileName>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <DisableSpecificWarnings>4068;26444;26812;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
-      <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>XMiLib.lib;Psapi.lib;$(QTDIR)\lib\Qt6EntryPoint.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Work\Personal\Beeftext\Submodules\XMiLib\XMiLib\release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <AdditionalDependencies>Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <TargetMachine>MachineX64</TargetMachine>
-      <AdditionalOptions> /SUBSYSTEM:WINDOWS</AdditionalOptions>
+      <IgnoreImportLibrary>true</IgnoreImportLibrary>
+      <LinkIncremental>false</LinkIncremental>
+      <OptimizeReferences>true</OptimizeReferences>
+      <OutputFile>$(OutDir)\Beeftext.exe</OutputFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
     </Link>
-    <PreBuildEvent>
-      <Command>powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -command "$(SolutionDir)Scripts\PowerShell\CompileTranslationFiles.ps1 -dstDir $(OutDir)translations " &gt;NUL</Command>
-    </PreBuildEvent>
-    <PreBuildEvent>
-      <Message>Compiling translation files</Message>
-    </PreBuildEvent>
+    <Midl>
+      <DefaultCharType>Unsigned</DefaultCharType>
+      <EnableErrorChecks>None</EnableErrorChecks>
+      <WarningLevel>0</WarningLevel>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;NDEBUG;QT_NO_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
     <QtMoc>
+      <CompilerFlavor>msvc</CompilerFlavor>
+      <Include>./$(Configuration)/moc_predefs.h</Include>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
       <DynamicSource>output</DynamicSource>
-      <ForceInclude>
-      </ForceInclude>
-      <PrependInclude>stdafx.h</PrependInclude>
-      <QtMocDir>.\_build\GeneratedFiles\$(ConfigurationName)</QtMocDir>
+      <QtMocDir>$(Configuration)</QtMocDir>
       <QtMocFileName>moc_%(Filename).cpp</QtMocFileName>
     </QtMoc>
     <QtRcc>
-      <InitFuncName>%(Filename)</InitFuncName>
+      <NoZstd>true</NoZstd>
       <Compression>default</Compression>
-      <NoCompression>true</NoCompression>
+      <InitFuncName>Beeftext</InitFuncName>
       <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
-      <QtRccDir>.\_build\GeneratedFiles</QtRccDir>
+      <QtRccDir>$(Configuration)</QtRccDir>
       <QtRccFileName>qrc_%(Filename).cpp</QtRccFileName>
     </QtRcc>
     <QtUic>
       <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
-      <QtUicDir>.\_build\GeneratedFiles</QtUicDir>
+      <QtUicDir>$(ProjectDir)</QtUicDir>
       <QtUicFileName>ui_%(Filename).h</QtUicFileName>
     </QtUic>
-    <QtTranslation />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;.;..\Submodules\XMiLib;..\..\..\..\WORK\DEPENDENCIES\QT\TOOLS\QTDESIGNSTUDIO\QT6_DESIGN_STUDIO_REDUCED_VERSION\include;..\..\..\..\WORK\DEPENDENCIES\QT\TOOLS\QTDESIGNSTUDIO\QT6_DESIGN_STUDIO_REDUCED_VERSION\include\QtMultimedia;..\..\..\..\WORK\DEPENDENCIES\QT\TOOLS\QTDESIGNSTUDIO\QT6_DESIGN_STUDIO_REDUCED_VERSION\include\QtWidgets;..\..\..\..\WORK\DEPENDENCIES\QT\TOOLS\QTDESIGNSTUDIO\QT6_DESIGN_STUDIO_REDUCED_VERSION\include\QtGui;..\..\..\..\WORK\DEPENDENCIES\QT\TOOLS\QTDESIGNSTUDIO\QT6_DESIGN_STUDIO_REDUCED_VERSION\include\QtNetwork;..\..\..\..\WORK\DEPENDENCIES\QT\TOOLS\QTDESIGNSTUDIO\QT6_DESIGN_STUDIO_REDUCED_VERSION\include\QtCore;debug;/include;..\..\..\..\WORK\DEPENDENCIES\QT\TOOLS\QTDESIGNSTUDIO\QT6_DESIGN_STUDIO_REDUCED_VERSION\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -permissive- -Zc:__cplusplus -Zc:externConstexpr -utf-8 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
+      <AssemblerListingLocation>debug\</AssemblerListingLocation>
+      <BrowseInformation>false</BrowseInformation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4577;4467;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ForcedIncludeFiles>stdafx.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <ObjectFileName>debug\</ObjectFileName>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(IntDir)\Beeftext.pch</PrecompiledHeaderOutputFile>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>XMiLib.lib;Psapi.lib;$(QTDIR)\lib\Qt6EntryPointd.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Work\Personal\Beeftext\Submodules\XMiLib\XMiLib\debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreImportLibrary>true</IgnoreImportLibrary>
+      <OutputFile>$(OutDir)\Beeftext.exe</OutputFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Link>
+    <Midl>
+      <DefaultCharType>Unsigned</DefaultCharType>
+      <EnableErrorChecks>None</EnableErrorChecks>
+      <WarningLevel>0</WarningLevel>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <QtMoc>
+      <CompilerFlavor>msvc</CompilerFlavor>
+      <Include>./$(Configuration)/moc_predefs.h</Include>
+      <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
+      <DynamicSource>output</DynamicSource>
+      <QtMocDir>$(Configuration)</QtMocDir>
+      <QtMocFileName>moc_%(Filename).cpp</QtMocFileName>
+    </QtMoc>
+    <QtRcc>
+      <InitFuncName>Beeftext</InitFuncName>
+      <Compression>default</Compression>
+      <NoZstd>true</NoZstd>
+      <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
+      <QtRccDir>$(Configuration)</QtRccDir>
+      <QtRccFileName>qrc_%(Filename).cpp</QtRccFileName>
+    </QtRcc>
+    <QtUic>
+      <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
+      <QtUicDir>$(ProjectDir)</QtUicDir>
+      <QtUicFileName>ui_%(Filename).h</QtUicFileName>
+    </QtUic>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AutoStart.cpp" />
+    <ClCompile Include="AboutDialog.cpp" />
     <ClCompile Include="Backup\BackupManager.cpp" />
     <ClCompile Include="Backup\BackupRestoreDialog.cpp" />
     <ClCompile Include="BeeftextConstants.cpp" />
     <ClCompile Include="BeeftextGlobals.cpp" />
     <ClCompile Include="BeeftextUtils.cpp" />
-    <ClCompile Include="Clipboard\ClipboardManager.cpp" />
-    <ClCompile Include="Clipboard\ClipboardManagerDefault.cpp" />
-    <ClCompile Include="Clipboard\ClipboardManagerLegacy.cpp" />
-    <ClCompile Include="Combo\CaseSensitivity.cpp" />
+    <ClCompile Include="ClipboardManager.cpp" />
     <ClCompile Include="Combo\Combo.cpp" />
     <ClCompile Include="Combo\ComboDialog.cpp" />
-    <ClCompile Include="Combo\ComboEditor.cpp" />
     <ClCompile Include="Combo\ComboFrame.cpp" />
     <ClCompile Include="Combo\ComboImportDialog.cpp" />
+    <ClCompile Include="Combo\ComboKeywordValidator.cpp" />
     <ClCompile Include="Combo\ComboList.cpp" />
     <ClCompile Include="Combo\ComboManager.cpp" />
     <ClCompile Include="Combo\ComboSortFilterProxyModel.cpp" />
-    <ClCompile Include="Combo\ComboKeywordValidator.cpp" />
     <ClCompile Include="Combo\ComboTableWidget.cpp" />
     <ClCompile Include="Combo\ComboVariable.cpp" />
-    <ClCompile Include="Combo\MatchingMode.cpp" />
-    <ClCompile Include="Dialogs\AboutDialog.cpp" />
-    <ClCompile Include="Dialogs\ShortcutDialog.cpp" />
-    <ClCompile Include="Dialogs\VariableInputDialog.cpp" />
-    <ClCompile Include="Emoji\Emoji.cpp" />
-    <ClCompile Include="Emoji\EmojiList.cpp" />
-    <ClCompile Include="Emoji\EmojiManager.cpp" />
     <ClCompile Include="Group\Group.cpp" />
     <ClCompile Include="Group\GroupComboBox.cpp" />
     <ClCompile Include="Group\GroupDialog.cpp" />
@@ -304,260 +235,183 @@
     <ClCompile Include="Group\GroupListWidget.cpp" />
     <ClCompile Include="I18nManager.cpp" />
     <ClCompile Include="InputManager.cpp" />
-    <ClCompile Include="KeyboardMapper.cpp" />
-    <ClCompile Include="LastUse\ComboLastUseFile.cpp" />
-    <ClCompile Include="LastUse\EmojiLastUseFile.cpp" />
     <ClCompile Include="LatestVersionInfo.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="MimeDataUtils.cpp" />
-    <ClCompile Include="Picker\PickerItemDelegate.cpp" />
-    <ClCompile Include="Picker\PickerModel.cpp" />
-    <ClCompile Include="Picker\PickerSortFilterProxyModel.cpp" />
-    <ClCompile Include="Picker\PickerWindow.cpp" />
-    <ClCompile Include="Picker\PickerWindowMoverResizer.cpp" />
-    <ClCompile Include="Preferences\Panes\PrefPaneAdvanced.cpp" />
-    <ClCompile Include="Preferences\Panes\PrefPaneAppearance.cpp" />
-    <ClCompile Include="Preferences\Panes\PrefPaneBehavior.cpp" />
-    <ClCompile Include="Preferences\Panes\PrefPaneCombos.cpp" />
-    <ClCompile Include="Preferences\Panes\PrefPaneEmojis.cpp" />
-    <ClCompile Include="Preferences\PreferencesDialog.cpp" />
-    <ClCompile Include="Preferences\PreferencesManager.cpp" />
-    <ClCompile Include="ProcessListManager.cpp" />
+    <ClCompile Include="PreferencesDialog.cpp" />
+    <ClCompile Include="PreferencesManager.cpp" />
     <ClCompile Include="Shortcut.cpp" />
-    <ClCompile Include="Snippet\DelaySnippetFragment.cpp" />
-    <ClCompile Include="Snippet\KeySnippetFragment.cpp" />
-    <ClCompile Include="Snippet\ShortcutSnippetFragment.cpp" />
-    <ClCompile Include="Snippet\SnippetFragment.cpp" />
-    <ClCompile Include="Snippet\TextSnippetFragment.cpp" />
-    <ClCompile Include="stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugRemote|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Theme.cpp" />
+    <ClCompile Include="ShortcutDialog.cpp" />
     <ClCompile Include="Update\UpdateCheckWorker.cpp" />
     <ClCompile Include="Update\UpdateDialog.cpp" />
     <ClCompile Include="Update\UpdateManager.cpp" />
-    <ClCompile Include="WaveSound.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AutoStart.h" />
-    <ClInclude Include="Combo\CaseSensitivity.h" />
-    <ClInclude Include="Combo\MatchingMode.h" />
-    <QtMoc Include="Dialogs\AboutDialog.h" />
-    <QtMoc Include="Dialogs\ShortcutDialog.h" />
-    <QtMoc Include="Dialogs\VariableInputDialog.h" />
-    <ClInclude Include="Emoji\Emoji.h" />
-    <ClInclude Include="Emoji\EmojiList.h" />
-    <ClInclude Include="Emoji\EmojiManager.h" />
-    <QtMoc Include="Picker\PickerItemDelegate.h" />
-    <QtMoc Include="Picker\PickerModel.h" />
-    <ClInclude Include="KeyboardMapper.h" />
-    <ClInclude Include="LastUse\ComboLastUseFile.h" />
-    <ClInclude Include="LastUse\EmojiLastUseFile.h" />
-    <ClInclude Include="Picker\PickerSortFilterProxyModel.h" />
-    <QtMoc Include="Picker\PickerWindow.h" />
-    <ClInclude Include="Picker\PickerWindowMoverResizer.h" />
-    <QtMoc Include="Preferences\PreferencesDialog.h" />
-    <QtMoc Include="Preferences\PreferencesManager.h" />
-    <QtMoc Include="Preferences\Panes\PrefPaneEmojis.h" />
-    <QtMoc Include="Preferences\Panes\PrefPane.h" />
-    <QtMoc Include="Preferences\Panes\PrefPaneAppearance.h" />
-    <QtMoc Include="Preferences\Panes\PrefPaneCombos.h" />
-    <QtMoc Include="Preferences\Panes\PrefPaneBehavior.h" />
-    <QtMoc Include="Preferences\Panes\PrefPaneAdvanced.h" />
-    <ClInclude Include="Snippet\DelaySnippetFragment.h" />
-    <ClInclude Include="Snippet\KeySnippetFragment.h" />
-    <ClInclude Include="Snippet\ShortcutSnippetFragment.h" />
-    <ClInclude Include="Snippet\SnippetFragment.h" />
-    <ClInclude Include="Snippet\TextSnippetFragment.h" />
-    <ClInclude Include="Theme.h" />
-    <ClInclude Include="WaveSound.h" />
-    <QtMoc Include="Combo\ComboEditor.h">
-    </QtMoc>
-    <QtMoc Include="Clipboard\ClipboardManagerDefault.h" />
-    <QtMoc Include="Clipboard\ClipboardManager.h" />
-    <QtMoc Include="Clipboard\ClipboardManagerLegacy.h" />
-    <ClInclude Include="ProcessListManager.h" />
-    <QtMoc Include="Update\UpdateCheckWorker.h">
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h;../../Update/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='DebugRemote|x64'">stdafx.h;../../Update/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h;../../Update/%(Filename)%(Extension)</ForceInclude>
-    </QtMoc>
-    <QtMoc Include="Update\UpdateManager.h">
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h;../../Update/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='DebugRemote|x64'">stdafx.h;../../Update/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h;../../Update/%(Filename)%(Extension)</ForceInclude>
-    </QtMoc>
-    <QtMoc Include="Update\UpdateDialog.h">
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h;../../Update/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='DebugRemote|x64'">stdafx.h;../../Update/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h;../../Update/%(Filename)%(Extension)</ForceInclude>
-    </QtMoc>
+    <ClInclude Include="AboutDialog.h" />
     <ClInclude Include="Backup\BackupManager.h" />
-    <QtMoc Include="Backup\BackupRestoreDialog.h">
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h;../../Backup/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='DebugRemote|x64'">stdafx.h;../../Backup/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h;../../Backup/%(Filename)%(Extension)</ForceInclude>
-    </QtMoc>
+    <QtMoc Include="Backup\BackupRestoreDialog.h" />
     <ClInclude Include="BeeftextConstants.h" />
     <ClInclude Include="BeeftextGlobals.h" />
     <ClInclude Include="BeeftextUtils.h" />
+    <ClInclude Include="ClipboardManager.h" />
     <ClInclude Include="Combo\Combo.h" />
-    <QtMoc Include="Combo\ComboList.h">
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h;../../Combo/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='DebugRemote|x64'">stdafx.h;../../Combo/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h;../../Combo/%(Filename)%(Extension)</ForceInclude>
-    </QtMoc>
-    <QtMoc Include="Combo\ComboManager.h">
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h;../../Combo/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='DebugRemote|x64'">stdafx.h;../../Combo/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h;../../Combo/%(Filename)%(Extension)</ForceInclude>
-    </QtMoc>
-    <QtMoc Include="Combo\ComboDialog.h">
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h;../../Combo/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='DebugRemote|x64'">stdafx.h;../../Combo/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h;../../Combo/%(Filename)%(Extension)</ForceInclude>
-    </QtMoc>
-    <QtMoc Include="Combo\ComboSortFilterProxyModel.h">
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h;../../Combo/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='DebugRemote|x64'">stdafx.h;../../Combo/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h;../../Combo/%(Filename)%(Extension)</ForceInclude>
-    </QtMoc>
-    <QtMoc Include="Combo\ComboImportDialog.h">
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h;../../Combo/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='DebugRemote|x64'">stdafx.h;../../Combo/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h;../../Combo/%(Filename)%(Extension)</ForceInclude>
-    </QtMoc>
-    <QtMoc Include="Combo\ComboFrame.h">
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h;../../Combo/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='DebugRemote|x64'">stdafx.h;../../Combo/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h;../../Combo/%(Filename)%(Extension)</ForceInclude>
-    </QtMoc>
-    <QtMoc Include="Combo\ComboTableWidget.h">
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h;../../Combo/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='DebugRemote|x64'">stdafx.h;../../Combo/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h;../../Combo/%(Filename)%(Extension)</ForceInclude>
-    </QtMoc>
+    <QtMoc Include="Combo\ComboDialog.h" />
+    <QtMoc Include="Combo\ComboFrame.h" />
+    <QtMoc Include="Combo\ComboImportDialog.h" />
     <ClInclude Include="Combo\ComboKeywordValidator.h" />
+    <QtMoc Include="Combo\ComboList.h" />
+    <QtMoc Include="Combo\ComboManager.h" />
+    <QtMoc Include="Combo\ComboSortFilterProxyModel.h" />
+    <QtMoc Include="Combo\ComboTableWidget.h" />
     <ClInclude Include="Combo\ComboVariable.h" />
-    <QtMoc Include="MainWindow.h">
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h;../../%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='DebugRemote|x64'">stdafx.h;../../%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h;../../%(Filename)%(Extension)</ForceInclude>
-    </QtMoc>
-    <QtMoc Include="InputManager.h">
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h;../../%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='DebugRemote|x64'">stdafx.h;../../%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h;../../%(Filename)%(Extension)</ForceInclude>
-    </QtMoc>
     <ClInclude Include="Group\Group.h" />
-    <QtMoc Include="Group\GroupList.h">
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h;../../Group/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='DebugRemote|x64'">stdafx.h;../../Group/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h;../../Group/%(Filename)%(Extension)</ForceInclude>
-    </QtMoc>
-    <QtMoc Include="Group\GroupDialog.h">
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h;../../Group/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='DebugRemote|x64'">stdafx.h;../../Group/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h;../../Group/%(Filename)%(Extension)</ForceInclude>
-    </QtMoc>
-    <QtMoc Include="Group\GroupComboBox.h">
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h;../../Group/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='DebugRemote|x64'">stdafx.h;../../Group/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h;../../Group/%(Filename)%(Extension)</ForceInclude>
-    </QtMoc>
-    <QtMoc Include="Group\GroupListWidget.h">
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h;../../Group/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='DebugRemote|x64'">stdafx.h;../../Group/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h;../../Group/%(Filename)%(Extension)</ForceInclude>
-    </QtMoc>
+    <QtMoc Include="Group\GroupComboBox.h" />
+    <QtMoc Include="Group\GroupDialog.h" />
+    <QtMoc Include="Group\GroupList.h" />
+    <QtMoc Include="Group\GroupListWidget.h" />
     <ClInclude Include="I18nManager.h" />
+    <QtMoc Include="InputManager.h" />
     <ClInclude Include="LatestVersionInfo.h" />
+    <QtMoc Include="MainWindow.h" />
     <ClInclude Include="MimeDataUtils.h" />
+    <ClInclude Include="PreferencesDialog.h" />
+    <ClInclude Include="PreferencesManager.h" />
     <ClInclude Include="Shortcut.h" />
-    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="ShortcutDialog.h" />
+    <QtMoc Include="Update\UpdateCheckWorker.h" />
+    <QtMoc Include="Update\UpdateDialog.h" />
+    <QtMoc Include="Update\UpdateManager.h" />
+    <CustomBuild Include="stdafx.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">echo /*-------------------------------------------------------------------- &gt;stdafx.h.cpp
+if errorlevel 1 goto VCEnd
+echo * Precompiled header source file used by Visual Studio.NET to generate&gt;&gt;stdafx.h.cpp
+if errorlevel 1 goto VCEnd
+echo * the .pch file.&gt;&gt;stdafx.h.cpp
+if errorlevel 1 goto VCEnd
+echo *&gt;&gt;stdafx.h.cpp
+if errorlevel 1 goto VCEnd
+echo * Due to issues with the dependencies checker within the IDE, it&gt;&gt;stdafx.h.cpp
+if errorlevel 1 goto VCEnd
+echo * sometimes fails to recompile the PCH file, if we force the IDE to&gt;&gt;stdafx.h.cpp
+if errorlevel 1 goto VCEnd
+echo * create the PCH file directly from the header file.&gt;&gt;stdafx.h.cpp
+if errorlevel 1 goto VCEnd
+echo *&gt;&gt;stdafx.h.cpp
+if errorlevel 1 goto VCEnd
+echo * This file is auto-generated by qmake since no PRECOMPILED_SOURCE was&gt;&gt;stdafx.h.cpp
+if errorlevel 1 goto VCEnd
+echo * specified, and is used as the common stdafx.cpp. The file is only&gt;&gt;stdafx.h.cpp
+if errorlevel 1 goto VCEnd
+echo * generated when creating .vcxproj project files, and is not used for&gt;&gt;stdafx.h.cpp
+if errorlevel 1 goto VCEnd
+echo * command line compilations by nmake.&gt;&gt;stdafx.h.cpp
+if errorlevel 1 goto VCEnd
+echo *&gt;&gt;stdafx.h.cpp
+if errorlevel 1 goto VCEnd
+echo * WARNING: All changes made in this file will be lost.&gt;&gt;stdafx.h.cpp
+if errorlevel 1 goto VCEnd
+echo --------------------------------------------------------------------*/&gt;&gt;stdafx.h.cpp
+if errorlevel 1 goto VCEnd
+echo #include "stdafx.h"&gt;&gt;stdafx.h.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating precompiled header source file 'stdafx.h.cpp' ...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h.cpp;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">echo /*-------------------------------------------------------------------- &gt;stdafx.h.cpp
+if errorlevel 1 goto VCEnd
+echo * Precompiled header source file used by Visual Studio.NET to generate&gt;&gt;stdafx.h.cpp
+if errorlevel 1 goto VCEnd
+echo * the .pch file.&gt;&gt;stdafx.h.cpp
+if errorlevel 1 goto VCEnd
+echo *&gt;&gt;stdafx.h.cpp
+if errorlevel 1 goto VCEnd
+echo * Due to issues with the dependencies checker within the IDE, it&gt;&gt;stdafx.h.cpp
+if errorlevel 1 goto VCEnd
+echo * sometimes fails to recompile the PCH file, if we force the IDE to&gt;&gt;stdafx.h.cpp
+if errorlevel 1 goto VCEnd
+echo * create the PCH file directly from the header file.&gt;&gt;stdafx.h.cpp
+if errorlevel 1 goto VCEnd
+echo *&gt;&gt;stdafx.h.cpp
+if errorlevel 1 goto VCEnd
+echo * This file is auto-generated by qmake since no PRECOMPILED_SOURCE was&gt;&gt;stdafx.h.cpp
+if errorlevel 1 goto VCEnd
+echo * specified, and is used as the common stdafx.cpp. The file is only&gt;&gt;stdafx.h.cpp
+if errorlevel 1 goto VCEnd
+echo * generated when creating .vcxproj project files, and is not used for&gt;&gt;stdafx.h.cpp
+if errorlevel 1 goto VCEnd
+echo * command line compilations by nmake.&gt;&gt;stdafx.h.cpp
+if errorlevel 1 goto VCEnd
+echo *&gt;&gt;stdafx.h.cpp
+if errorlevel 1 goto VCEnd
+echo * WARNING: All changes made in this file will be lost.&gt;&gt;stdafx.h.cpp
+if errorlevel 1 goto VCEnd
+echo --------------------------------------------------------------------*/&gt;&gt;stdafx.h.cpp
+if errorlevel 1 goto VCEnd
+echo #include "stdafx.h"&gt;&gt;stdafx.h.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating precompiled header source file 'stdafx.h.cpp' ...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h.cpp;%(Outputs)</Outputs>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <CustomBuild Include="debug\moc_predefs.h.cbt">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\..\..\WORK\DEPENDENCIES\QT\TOOLS\QTDESIGNSTUDIO\QT6_DESIGN_STUDIO_REDUCED_VERSION\mkspecs\features\data\dummy.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cl -Bx"$(QTDIR)\bin\qmake.exe" -nologo -Zc:wchar_t -FS -Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -permissive- -Zc:__cplusplus -Zc:externConstexpr -Zi -MDd -std:c++17 -utf-8 -W3 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 -wd4577 -wd4467 -E ..\..\..\..\WORK\DEPENDENCIES\QT\TOOLS\QTDESIGNSTUDIO\QT6_DESIGN_STUDIO_REDUCED_VERSION\mkspecs\features\data\dummy.cpp 2&gt;NUL &gt;debug\moc_predefs.h</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generate moc_predefs.h</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">debug\moc_predefs.h;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="release\moc_predefs.h.cbt">
+      <FileType>Document</FileType>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\..\..\WORK\DEPENDENCIES\QT\TOOLS\QTDESIGNSTUDIO\QT6_DESIGN_STUDIO_REDUCED_VERSION\mkspecs\features\data\dummy.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cl -Bx"$(QTDIR)\bin\qmake.exe" -nologo -Zc:wchar_t -FS -Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -permissive- -Zc:__cplusplus -Zc:externConstexpr -O2 -MD -std:c++17 -utf-8 -W3 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 -wd4577 -wd4467 -E ..\..\..\..\WORK\DEPENDENCIES\QT\TOOLS\QTDESIGNSTUDIO\QT6_DESIGN_STUDIO_REDUCED_VERSION\mkspecs\features\data\dummy.cpp 2&gt;NUL &gt;release\moc_predefs.h</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generate moc_predefs.h</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">release\moc_predefs.h;%(Outputs)</Outputs>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </CustomBuild>
+    <ClCompile Include="stdafx.h.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(NOINHERIT)</ForcedIncludeFiles>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(NOINHERIT)</ForcedIncludeFiles>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Translations\beeftext_fr.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="Backup\BackupRestoreDialog.ui" />
+    <QtUic Include="Combo\ComboDialog.ui" />
+    <QtUic Include="Combo\ComboFrame.ui" />
+    <QtUic Include="Combo\ComboImportDialog.ui" />
+    <QtUic Include="Combo\ComboTableWidget.ui" />
     <QtUic Include="Dialogs\AboutDialog.ui" />
     <QtUic Include="Dialogs\ShortcutDialog.ui" />
-    <QtUic Include="MainWindow.ui">
-    </QtUic>
-  </ItemGroup>
-  <ItemGroup>
-    <QtRcc Include="Beeftext.qrc">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugRemote|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </QtRcc>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Beeftext.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtUic Include="Combo\ComboDialog.ui">
-    </QtUic>
-  </ItemGroup>
-  <ItemGroup>
-    <QtUic Include="Picker\PickerWindow.ui" />
-    <QtUic Include="Preferences\Panes\PrefPaneAdvanced.ui" />
-    <QtUic Include="Preferences\Panes\PrefPaneAppearance.ui" />
-    <QtUic Include="Preferences\Panes\PrefPaneBehavior.ui" />
-    <QtUic Include="Preferences\Panes\PrefPaneCombos.ui" />
-    <QtUic Include="Preferences\Panes\PrefPaneEmojis.ui" />
+    <QtUic Include="Group\GroupDialog.ui" />
+    <QtUic Include="Group\GroupListWidget.ui" />
+    <QtUic Include="MainWindow.ui" />
     <QtUic Include="Preferences\PreferencesDialog.ui" />
-    <QtUic Include="Update\UpdateDialog.ui">
-    </QtUic>
+    <QtUic Include="Update\UpdateDialog.ui" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\vcpkg.json" />
+    <None Include="Resources\ArrowDown.png" />
+    <None Include="Resources\ArrowUp.png" />
+    <QtRcc Include="Beeftext.qrc" />
+    <None Include="Resources\BeeftextIcon.ico" />
+    <None Include="Resources\BeeftextIconGrayscale.ico" />
+    <None Include="Resources\BeeftextLogo128.png" />
+    <None Include="Resources\Notification.wav" />
     <None Include="Resources\StyleCommon.qss" />
     <None Include="Resources\StyleDark.qss" />
     <None Include="Resources\StyleLight.qss" />
     <None Include="Resources\StyleNoCustom.qss" />
-    <None Include="Translations\beeftext_de_DE.ts" />
-    <None Include="Translations\beeftext_it_IT.ts" />
-    <None Include="Translations\beeftext_nl_NL.ts" />
-    <None Include="Translations\beeftext_pl_PL.ts" />
-    <None Include="Translations\beeftext_pt_PT.ts" />
-    <None Include="Translations\beeftext_ru_RU.ts" />
-    <QtUic Include="Combo\ComboImportDialog.ui">
-    </QtUic>
-    <QtUic Include="Combo\ComboFrame.ui">
-    </QtUic>
-    <QtUic Include="Combo\ComboTableWidget.ui">
-    </QtUic>
-    <QtUic Include="Group\GroupDialog.ui">
-    </QtUic>
-    <QtUic Include="Group\GroupListWidget.ui">
-    </QtUic>
-    <QtUic Include="Backup\BackupRestoreDialog.ui">
-    </QtUic>
-    <None Include="Translations\beeftext_fr_FR.ts" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resources\BeeftextIcon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Submodules\XMiLib\XMiLib\XMiLib.vcxproj">
-      <Project>{c2c2e08c-d1ff-4496-8d42-8dfb24aeee66}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <QtTranslation Include="Translations\beeftext_es_ES.ts" />
-    <QtTranslation Include="Translations\beeftext_zh_TW.ts" />
-    <QtTranslation Include="Translations\beeftext_zh_CN.ts" />
+    <ResourceCompile Include="Beeftext.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
-    <Import Project="$(QtMsBuild)\qt.targets" />
-  </ImportGroup>
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
-  <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties />
-    </VisualStudio>
-  </ProjectExtensions>
+  <Import Project="$(QtMsBuild)\qt.targets" Condition="Exists('$(QtMsBuild)\qt.targets')" />
+  <ImportGroup Label="ExtensionTargets" />
 </Project>
