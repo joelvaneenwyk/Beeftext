@@ -13,5 +13,13 @@
     "cmake.configureArgs": [
         "-DCMAKE_TOOLCHAIN_FILE=${workspaceFolder}/Submodules/vcpkg/scripts/buildsystems/vcpkg.cmake",
         "-DVCPKG_TARGET_TRIPLET=x64-windows"
-    ]
+    ],
+    "cmake.environment": {
+        "VCPKG_ROOT": "${workspaceFolder}/Submodules/vcpkg"
+    },
+    "terminal.integrated.defaultProfile.windows": "Command Prompt",
+    "terminal.integrated.env.windows": {
+        "VCPKG_ROOT": "${workspaceFolder}/Submodules/vcpkg",
+        "PATH": "${env:PATH};${workspaceFolder}/Submodules/vcpkg"
+    }
 }
