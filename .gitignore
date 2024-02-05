@@ -51,3 +51,4 @@ release/
 out/
 ui_*.h
 moc_*.cpp
+.qmake.stash
