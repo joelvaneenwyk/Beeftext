@@ -40,7 +40,7 @@ tasks:
   init-git:
     cmds:
       - cmd: git -C "{{.PROJECT_DIR}}" submodule init
-      - cmd: git -C "{{.PROJECT_DIR}}" submodule update --init
+      - cmd: git -C "{{.PROJECT_DIR}}" submodule update --init --recursive
 
   init-git-submodules:
     cmds:
