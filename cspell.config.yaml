@@ -1,0 +1,11 @@
+version: "0.2"
+ignorePaths: []
+dictionaryDefinitions:
+  - name: beeftext-dictionary
+    path: ./.cspell/beeftext-dictionary.txt
+    addWords: true
+dictionaries:
+  - beeftext-dictionary
+words: []
+ignoreWords: []
+import: []

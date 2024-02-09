@@ -1,6 +1,12 @@
 [submodule "Submodules/XMiLib"]
 	path = Submodules/XMiLib
-	url = https://github.com/xmichelo/XMiLib
+	url = https://github.com/joelvaneenwyk/XMiLib.git
+	branch = master
 [submodule "Submodules/emojilib"]
 	path = Submodules/emojilib
-	url = https://github.com/muan/emojilib.git
+	url = https://github.com/muan/emojilib
+	branch = main
+[submodule "Submodules/vcpkg"]
+	path = Submodules/vcpkg
+	url = https://github.com/microsoft/vcpkg
+	branch = master

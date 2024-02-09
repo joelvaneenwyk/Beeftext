@@ -1,0 +1,170 @@
+# This starter workflow is for a CMake project running on multiple platforms. There is a different starter workflow if you just want a single platform.
+# See: https://github.com/actions/starter-workflows/blob/main/ci/cmake-single-platform.yml
+name: CMake on multiple platforms
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  build:
+    strategy:
+      # Set fail-fast to false to ensure that feedback is delivered for all matrix combinations. Consider changing this to true when your workflow is stable.
+      fail-fast: false
+
+      # Set up a matrix to run the following 3 configurations:
+      # 1. <Windows, Release, latest MSVC compiler toolchain on the default runner image, default generator>
+      # 2. <Linux, Release, latest GCC compiler toolchain on the default runner image, default generator>
+      # 3. <Linux, Release, latest Clang compiler toolchain on the default runner image, default generator>
+      #
+      # To add more build types (Release, Debug, RelWithDebInfo, etc.) customize the build_type list.
+      matrix:
+        config:
+          - {
+              name: "Windows Latest MSVC x86_64",
+              ext: "windows-msvc-x86_64",
+              os: windows-latest,
+              c_compiler: "cl",
+              cpp_compiler: "cl",
+              vcpkg_triplet: x64-windows,
+            }
+          - {
+              name: "Ubuntu Latest GCC",
+              ext: "linux",
+              os: ubuntu-latest,
+              c_compiler: "gcc",
+              cpp_compiler: "g++",
+              vcpkg_triplet: x64-linux,
+            }
+        build_type: [Release]
+
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      # Or pin to a specific CMake version:
+      # lukka/get-cmake@v3.27
+      - uses: lukka/get-cmake@latest
+        with:
+          cmakeVersion: "~3.25.0" # <--= optional, use most recent 3.25.x version
+          ninjaVersion: "^1.11.1" # <--= optional, use most recent 1.x version
+
+      # Setup vcpkg: ensures vcpkg is downloaded and built.
+      # Since vcpkg.json is being used later on to install the packages
+      # when `run-cmake` runs, no packages are installed at this time
+      # (and vcpkg does not run).
+      - name: Setup anew (or from cache) vcpkg (and does not build any package)
+        uses: lukka/run-vcpkg@v11
+        with:
+          # This is the default location of the directory containing vcpkg sources.
+          # Change it to the right location if needed.
+          vcpkgDirectory: "${{ github.workspace }}/Submodules/vcpkg"
+
+          # This is only needed if the command `vcpkg install` must run at this step.
+          # Instead it is highly suggested to let `run-cmake` to run vcpkg later on
+          # using the vcpkg.cmake toolchain. The default is `false`.
+          runVcpkgInstall: true
+
+          # This is only needed if `runVpkgInstall` is `true`.
+          # This glob expression used to locate the vcpkg.json and  use
+          # its directory location as `working directory` when running `vcpkg install`.
+          # Change it to match a single manifest file you want to use.
+          # Note: do not use `${{ github.context }}` to compose the value as it
+          # contains backslashes that would be misinterpreted. Instead
+          # compose a value relative to the root of the repository using
+          # `**/path/from/root/of/repo/to/vcpkg.json` to match the desired `vcpkg.json`.
+          vcpkgJsonGlob: "**/vcpkg.json"
+
+      - name: Run CMake consuming CMakePreset.json and run vcpkg to build packages
+        uses: lukka/run-cmake@v10
+        with:
+          # This is the default path to the CMakeLists.txt along side the
+          # CMakePresets.json. Change if you need have CMakeLists.txt and CMakePresets.json
+          # located elsewhere.
+          cmakeListsTxtPath: "${{ github.workspace }}/CMakeLists.txt"
+
+          # Additional arguments can be appended to the cmake command.
+          # This is useful to reduce the number of CMake's Presets since you can reuse
+          # an existing preset with different variables.
+          #configurePresetAdditionalArgs: "['-DENABLE_YOUR_FEATURE=1']"
+
+          # Additional arguments can be appended when building, for example to specify the
+          # configuration to build.
+          # This is useful to reduce the number of CMake's Presets you need in CMakePresets.json.
+          buildPresetAdditionalArgs: "['--config Release']"
+
+          # This is the name of the CMakePresets.json's configuration to test the project with.
+          #testPreset: "ninja-multi-vcpkg"
+          # Additional arguments can be appended when testing, for example to specify the config
+          # to test.
+          # This is useful to reduce the number of CMake's Presets you need in CMakePresets.json.
+          #testPresetAdditionalArgs: "['--config Release']"
+
+        env:
+          #  [OPTIONAL] Define the vcpkg's triplet you want to enforce, otherwise the default one
+          #  for the hosting system will be automatically choosen (x64 is the default on all
+          #  platforms, e.g. `x64-osx`).
+          #VCPKG_DEFAULT_TRIPLET: ${{ matrix.config.vcpkg_triplet }}
+          #
+          #  [OPTIONAL] If VCPKG_DEFAULT_TRIPLET is defined then it may also be desirable to set the host
+          #  triplet to avoid unintended cross compiling behavior.
+          #VCPKG_DEFAULT_HOST_TRIPLET: ${{ matrix.triplet }}
+          #
+          #  [OPTIONAL] By default the action disables vcpkg's telemetry by defining VCPKG_DISABLE_METRICS.
+          #  This behavior can be disabled by defining `VCPKG_ENABLE_METRICS` as follows.
+          VCPKG_DISABLE_METRICS: 1
+
+      - name: Prepare Vulkan SDK
+        uses: humbletim/setup-vulkan-sdk@v1.2.0
+        with:
+          vulkan-query-version: 1.3.204.0
+          vulkan-components: Vulkan-Headers, Vulkan-Loader
+          vulkan-use-cache: true
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: "6.5"
+          install-deps: "true"
+          cache: "true"
+          cache-key-prefix: "install-qt-action"
+          setup-python: "true"
+          tools: "tools_ifw tools_qtcreator,qt.tools.qtcreator"
+          set-env: "true"
+          tools-only: "false"
+          aqtversion: "==3.1.*"
+          py7zrversion: "==0.20.*"
+          extra: "--external 7z"
+
+        # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
+      - name: Set reusable strings
+        id: strings
+        shell: bash
+        run: |
+          echo "build-output-dir=${{ github.workspace }}/.build" >> "$GITHUB_OUTPUT"
+
+      - name: Configure CMake
+        # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
+        # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
+        run: >
+          cmake -B ${{ steps.strings.outputs.build-output-dir }}
+          -DCMAKE_CXX_COMPILER=${{ matrix.config.cpp_compiler }}
+          -DCMAKE_C_COMPILER=${{ matrix.config.c_compiler }}
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          -S ${{ github.workspace }}
+
+      # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
+      - name: Build
+        run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
+
+      # Execute tests defined by the CMake configuration. Note that --build-config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
+      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+      # - name: Test
+      #   working-directory: ${{ steps.strings.outputs.build-output-dir }}
+      #   run: ctest --build-config ${{ matrix.build_type }}

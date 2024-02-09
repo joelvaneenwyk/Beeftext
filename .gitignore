@@ -1,12 +1,22 @@
+#
+##################
+# Beeftext
+#----------------
+#
+# Ignore file for Visual Studio projects using Qt
+#
+
 .vs/
 _build/
 _temp/
 _doc/
 GeneratedFiles/
+.build/
 build/
 ipch/
 temp/
 CMakeFiles/
+
 *.suo
 *.vcxproj.user
 *.bak
@@ -32,4 +42,20 @@ tasks.xml
 *.DotSettings.user
 qtvars*
 CMakeCache.txt
-.idea/
+
+/vcpkg/
+
+.sarif/
+debug/
+release/
+out/
+x64/
+
+*.pro.user
+ui_*.h
+moc_*.cpp
+.qmake.stash
+*.qtvscr
+
+# Precompiled header source file used by Visual Studio.NET to generate the .pch file.
+stdafx.h.cpp
