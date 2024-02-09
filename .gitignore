@@ -56,3 +56,6 @@ ui_*.h
 moc_*.cpp
 .qmake.stash
 *.qtvscr
+
+# Precompiled header source file used by Visual Studio.NET to generate the .pch file.
+stdafx.h.cpp
